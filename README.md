@@ -1,5 +1,7 @@
 # multi-agent-dev-system — a role-based methodology for shipping software with AI agents
 
+**▶ Live one-pager: https://pvom.github.io/multi-agent-dev-system/**
+
 > ⚠️ Sanitized case study. This documents the **development methodology** I use to build
 > and maintain production systems (e.g. MedTrack, a healthcare SaaS). It describes the
 > role structure, the workflow rules and the results — it does **not** ship any

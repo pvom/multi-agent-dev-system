@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>multi-agent-dev-system — methodology</title>
+  <style>
+    :root { --bg:#0d1117; --card:#161b22; --line:#30363d; --fg:#e6edf3; --dim:#8b949e; --accent:#2f81f7; --good:#3fb950; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif; }
+    .wrap { max-width:840px; margin:0 auto; padding:40px 20px 80px; }
+    h1 { font-size:25px; margin:0 0 6px; }
+    .lede { color:var(--dim); margin:0 0 26px; }
+    h2 { font-size:16px; margin:30px 0 12px; }
+    table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
+    th { color:var(--dim); } td strong { color:var(--fg); }
+    .flow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+    .node { background:#1f2630; border:1px solid var(--line); border-radius:8px; padding:6px 11px; font-size:13px; }
+    .node.gate { border-color:var(--good); color:var(--good); }
+    .arrow { color:var(--dim); }
+    ul { padding-left:20px; } li { margin:5px 0; }
+    a { color:var(--accent); }
+    .foot { color:var(--dim); font-size:13px; margin-top:32px; border-top:1px solid var(--line); padding-top:16px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>multi-agent-dev-system</h1>
+    <p class="lede">A role-based methodology for shipping software with AI agents. Coding agents are fast
+      but undisciplined — they refactor what you didn’t ask for, skip verification, and lose the thread.
+      This is the operating model I put around them: specialized agents with isolated context, strict
+      separation of duties, and Spec-Driven Development.</p>
+
+    <h2>The pipeline</h2>
+    <div class="flow">
+      <span class="node">Request</span><span class="arrow">→</span>
+      <span class="node">Lead — decompose</span><span class="arrow">→</span>
+      <span class="node">Arq — specs</span><span class="arrow">→</span>
+      <span class="node">Coder ‖</span><span class="arrow">→</span>
+      <span class="node gate">QA gate</span><span class="arrow">→</span>
+      <span class="node gate">Security gate</span><span class="arrow">→</span>
+      <span class="node">Ops — commit &amp; deploy</span>
+    </div>
+
+    <h2>The roles</h2>
+    <table>
+      <thead><tr><th>Agent</th><th>Owns</th><th>Never does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lead</strong></td><td>Decompose into SDD tasks, write PRs, coordinate</td><td>Implement · commit</td></tr>
+        <tr><td><strong>Arq</strong></td><td>Standards, specs, interfaces</td><td>Implement · commit</td></tr>
+        <tr><td><strong>Coder ‖</strong></td><td>Implement one atomic task; parallelizable</td><td>Decide architecture · commit · scope-creep</td></tr>
+        <tr><td><strong>QA</strong></td><td>Run the suite, evidence-based verdict</td><td>Fix code · commit</td></tr>
+        <tr><td><strong>Security</strong></td><td>Secrets/PII/brand audit — hard gate</td><td>—</td></tr>
+        <tr><td><strong>Ops</strong></td><td>The only role that commits, merges, deploys</td><td>Implement · decide architecture</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The guardrails</h2>
+    <ul>
+      <li><strong>Separation of duties</strong> — no agent both authors a change and ships it.</li>
+      <li><strong>QA approves on evidence</strong> — a number, a screenshot, a <code>file:line</code> — never “looks fine”.</li>
+      <li><strong>Security is a hard gate</strong> — 0 secrets, 0 PII, 0 client brands before anything outward-facing ships.</li>
+      <li><strong>Human approval</strong> for irreversible/outward-facing actions (public repo, push, deploy).</li>
+      <li><strong>Spec-Driven Development</strong> — every task atomic, with a verification criterion, closed by an atomic commit.</li>
+    </ul>
+
+    <p>The <strong>QA role made real</strong> is a separate runnable repo:
+      <a href="https://pvom.github.io/agentic-qa-gate/">agentic-qa-gate</a> — a Playwright merge gate with a
+      runtime design-system audit.</p>
+
+    <div class="foot">
+      Sanitized methodology write-up · applied to a production healthcare SaaS (MedTrack) ·
+      <a href="https://github.com/pvom/multi-agent-dev-system">source on GitHub</a>.
+    </div>
+  </div>
+</body>
+</html>
