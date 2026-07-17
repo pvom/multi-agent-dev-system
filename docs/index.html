@@ -12,7 +12,8 @@
     h1 { font-size:25px; margin:0 0 6px; }
     .lede { color:var(--dim); margin:0 0 26px; }
     h2 { font-size:16px; margin:30px 0 12px; }
-    table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .tablewrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; min-width:320px; }
     th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); font-size:14px; vertical-align:top; }
     th { color:var(--dim); } td strong { color:var(--fg); }
     .flow { display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
@@ -44,7 +45,7 @@
     </div>
 
     <h2>The roles</h2>
-    <table>
+    <div class="tablewrap"><table>
       <thead><tr><th>Agent</th><th>Owns</th><th>Never does</th></tr></thead>
       <tbody>
         <tr><td><strong>Lead</strong></td><td>Decompose into SDD tasks, write PRs, coordinate</td><td>Implement · commit</td></tr>
@@ -54,7 +55,7 @@
         <tr><td><strong>Security</strong></td><td>Secrets/PII/brand audit — hard gate</td><td>—</td></tr>
         <tr><td><strong>Ops</strong></td><td>The only role that commits, merges, deploys</td><td>Implement · decide architecture</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>The guardrails</h2>
     <ul>
